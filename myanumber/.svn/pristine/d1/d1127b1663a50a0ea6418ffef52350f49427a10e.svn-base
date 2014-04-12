@@ -1,0 +1,127 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using TwinningAPIWrapper.Interfaces;
+using TwinningAPIWrapper.Models;
+using TwinningAPIWrapper.Globals;
+using TwinningAPIWrapper.Helpers;
+
+namespace TwinningAPIWrapper
+{
+    public class TwinningAPI : IAPIWrapper
+    {
+        private static TwinningAPI instance;
+
+        private TwinningAPI() { }
+
+        public static TwinningAPI Instance
+        {
+            get
+            {
+                if (TwinningAPI.instance == null)
+                {
+                    instance = new TwinningAPI();
+                }
+
+                return instance;
+            }
+        }
+
+        public bool IsTwinningEstablished()
+        {
+            return false;
+        }
+
+        public void AddPrimaryDevice(Delegates.OnSuccessCallback onSuccess, Delegates.OnErrorCallback onError)
+        {
+            var postParameters = new Dictionary<string, string>();
+
+            postParameters.Add("phone_number", "2065552323");
+            postParameters.Add("notification_key", "2342424234234423");
+            postParameters.Add("notification_type", "wns");
+
+            HttpHelper.HttpPost(Constants.API_URL_PRIMARY_ADD, postParameters,
+                (string response) => { onSuccess(); },
+                (string message) => { onError(message); });
+        }       
+
+        public void CheckIfSecondaryDeviceExists(string secondaryPhoneNumber, Delegates.OnSuccessReturningStatusCallback onSuccess, 
+                                                Delegates.OnErrorCallback onError)
+        {
+            if (string.IsNullOrWhiteSpace(secondaryPhoneNumber))
+            {
+                onError("The secondary phone number must not be null or empty.");
+            }
+            else if (secondaryPhoneNumber == "5552321212")
+            {
+                onSuccess(true);
+            }
+            else
+            {
+                onSuccess(false);
+            }
+        }
+
+        public void ValidateSecondaryDevice(string secondaryAuthorizationCode, Delegates.OnSuccessReturningStatusCallback onSuccess, 
+                                        Delegates.OnErrorCallback onError)
+        {
+            if (string.IsNullOrWhiteSpace(secondaryAuthorizationCode))
+            {
+                onError("The secondary authorization code must not be null or empty.");
+            }
+            else if (secondaryAuthorizationCode == "123456")
+            {
+                onSuccess(true);
+            }
+            else
+            {
+                onSuccess(false);
+            }
+        }
+
+        public void CreateTwin(string attOAuthAuthorizationCode, Delegates.OnSuccessCallback onSuccess,
+                        Delegates.OnAttConsentErrorCallback onAttConsentError, Delegates.OnCreateTwinErrorCallback onCreateTwinError)
+        {
+            if (string.IsNullOrWhiteSpace(attOAuthAuthorizationCode))
+            {
+                onAttConsentError("The att oauth authorization code must not be null or empty.");
+            }
+            else if (attOAuthAuthorizationCode == "twinerror")
+            {
+                onCreateTwinError("A twin could not be made");
+            }
+            else
+            {
+                onSuccess();
+            }
+        }
+
+        public void UpdateTwinningStatus(bool desiredTwinningStatus, Delegates.OnSuccessReturningStatusCallback onSuccess, Delegates.OnErrorCallback onError)
+        {
+            onSuccess(desiredTwinningStatus);
+        }
+
+        public void DeleteTwin(Delegates.OnSuccessCallback onSuccess, Delegates.OnErrorCallback onError)
+        {
+            onSuccess();
+        }
+
+        public TwinningInformation GetTwinningInformation()
+        {
+            if (this.IsTwinningEstablished())
+            {
+                //TODO: Return actual twinning info object
+            }
+
+            return null;
+        }
+
+        public string GetPrimaryDevicePhoneNumber()
+        {
+            return "(206) 555-2323";
+        }
+    }
+}

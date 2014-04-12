@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Navigation;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
+using System.Windows.Media;
+using System.Windows.Controls.Primitives;
+using myanumber.Resources;
+
+
+namespace myanumber
+{
+    public partial class Twinning : PhoneApplicationPage
+    {
+        public Twinning()
+        {
+            InitializeComponent();
+        }
+
+        private void TwinningToggleSwitch_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TwinningToggleSwitch.Content = "On";
+                TwinningStatusPanel.Background =  new SolidColorBrush(Color.FromArgb(255, 59, 206, 32));
+                TwinningStatusTextBlock.Text = AppResources.TwinningOnStatus;
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
+        }
+
+        private void TwinningToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TwinningToggleSwitch.Content = "Off";
+                TwinningStatusPanel.Background = new SolidColorBrush(Color.FromArgb(255, 71, 71, 71));
+                TwinningStatusTextBlock.Text = AppResources.TwinningOffStatus;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private void TwinningToggleSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("Click");
+        }
+
+        private void TwinningToggleSwitch_Indeterminate(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("Its intermidiate");
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("MenuItem");
+        }
+
+        private void Menu_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            ContextMenu contextMenu = ContextMenuService.GetContextMenu(button);
+            if (contextMenu.Parent == null)
+            {
+                contextMenu.IsOpen = true;
+
+
+            }
+        }
+
+    }
+}

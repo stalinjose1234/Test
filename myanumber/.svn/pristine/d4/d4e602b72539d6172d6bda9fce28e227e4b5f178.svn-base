@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Navigation;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
+using myanumber.Resources;
+using myanumber.ViewModels;
+
+
+namespace myanumber
+{
+    public partial class MainPage : PhoneApplicationPage
+    {
+        // Constructor
+        public MainPage()
+        {
+            InitializeComponent();
+
+            LinkedNumberTextBox.Text = AppResources.SecondaryWaterMarkText;
+        }
+        private void LinkedNumberTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LinkedNumberTextBox.Text = "";
+                NavigationService.Navigate(new Uri("/EnterLinkedNumber.xaml", UriKind.Relative));
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
+        }
+
+
+        private void LinkedNumberTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {              
+                  LinkedNumberTextBox.Text = AppResources.SecondaryWaterMarkText;
+
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
+        }
+    }
+}
